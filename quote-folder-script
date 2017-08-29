@@ -1,0 +1,45 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Aug 15 11:56:54 2017
+
+@author: rkirchner
+"""
+
+def engFolder():
+    import shutil,os,sys
+    jobNum=int(input('Enter the job number: '))
+    jobName= input('Enter the job name: ')
+
+#    This is the path to the the folder that has the structure template
+    templateLocal=('O:\\Job Info\\NEW Std Job File Structure Template\\XXXX Job File Structure Template')
+
+#    Calculates the range the job number belongs in order to find the correct folder
+    jobRange=(str(jobNum//100)+'00'+'-'+str(jobNum//100)+'99')
+
+#    Using the os.walk module the new job folder is built. The path returned fromt he folder structer template
+#    is modified and a new directory is created for each sub directory in the folder structure template.
+    for mainDir,subDir,files in os.walk(templateLocal):
+        root=(mainDir.replace('NEW Std Job File Structure Template\\XXXX Job File Structure Template','Jobs '+str(jobRange) +'\\'+str(jobNum)+' '+jobName)).replace('XXXX',str(jobNum))
+
+        for subDirs in subDir:
+            subRoot=(root+'\\'+subDirs.replace('XXXX',str(jobNum)))
+#            Try/Except to handle erros if file already exists
+            try:
+                os.makedirs(subRoot)
+            except FileExistsError:
+                print('File already exists')
+                errorInput=(input('Would you like to try again? Enter Y to try again, enter any other key to exit. ')).capitalize()
+                if errorInput=='Y':
+                    engFolder()
+                else:
+                    sys.exit('Goodbye')
+            except PermissionError:
+                print(' ')
+                print('Job folder does not exist, make a job folder for Jobs '+jobRange)
+                errorInput2=input('Press any key to Exit ')
+                sys.exit('Goodbye')
+#    Copies any files in the folders
+            for file in files:
+                shutil.copyfile(mainDir+'\\'+file,root+'\\'+file)
+
+engFolder()
