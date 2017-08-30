@@ -19,6 +19,6 @@ becomes this directory for job 1234
     ...1234 Calculations
     ...1234 Schedules
     
-The scripts walks down the enitre directory each creates a new folder and file for every folder and file in the template.  The engineering manager can change the directory template, add or remove files and the script will always works.
+The scripts walks down the enitre directory and creates a new folder and file for every folder and file in the template.  The engineering manager can change the directory template, add or remove files and the script will always works.
 
-A similair script is used for sales quotes, but is much simpler because the directory structure is simple.
+The script for the sales quote folder is simpler.  It simlpy make a new directory tree for each new job.
